@@ -131,7 +131,7 @@ class Menu {
                 </div>
                 <div class="search-box centerY">
                     <div class="iconfont">&#xe61b;</div>
-                    <input type="text" placeholder="搜索" v-model.trim="searchVal" @keyup.enter="searchFn" />
+                    <input type="search" placeholder="搜索" v-model.trim="searchVal" @keyup.enter="searchFn" />
                 </div>
                 <div class="paging centerY">
                     <input type="text" @input="numberInput($event,'page')" :value="page" @keyup.enter="changePage" @blur="changePage" />
@@ -148,7 +148,7 @@ class Menu {
                     <div class="result-container" :class="{active:searchResultShow}">
                         <div class="result-list">
                             <div class="result-list-item" @click="changePage(item.page)" v-for="(item,i) in searchResult">
-                                <div class="index center">{{i+1}}</div>
+                                <div class="index center" :class="{active:curPages.includes(item.page-0)}">{{i+1}}</div>
                                 <div class="content">{{item.content}}</div>
                             </div>
                         </div>
@@ -425,11 +425,13 @@ class Menu {
                 searchFn() {
                     this.curPages = window.$book.curPageStr()
                     this.searchResult = []
-                    this.searchResultShow = false
+                    // ? 为正则非法字符替换掉
+                    this.searchVal = this.searchVal.replace('?', '')
+                    // this.searchResultShow = false
                     let result = that.search.query(this.searchVal)
                     Object.keys(result).forEach(key => {
-                        let strarr = result[key].replace(/^\d*/, '').split(/\n/).filter(item => item.includes(this.searchVal))
-                        let obj = { page: key, content: strarr.join(',') }
+                        let strarr = result[key].replace(/^\d*/, '').split((new RegExp(this.searchVal))).filter((item, i) => i != 0)
+                        let obj = { page: key, content: this.searchVal + strarr.join(`${this.searchVal},`) }
                         this.searchResult.push(obj)
                     })
                     if (this.isSingle === null) {

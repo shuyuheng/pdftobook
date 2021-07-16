@@ -344,6 +344,7 @@
     top: 100%;
     left: 50%;
     width: 300px;
+    height: auto;
     color: white;
     overflow: hidden;
     transition: all 0.3s;
@@ -351,9 +352,11 @@
     opacity: 0;
     visibility: hidden;
     transform: translateX(-50%); }
-    #ComponentShow .player video {
+    #ComponentShow .player video,
+    #ComponentShow .player audio {
       width: 100%;
-      height: 100%; }
+      height: auto;
+      min-height: 54px; }
 
 .no-children-event {
   pointer-events: auto !important; }
@@ -364,7 +367,8 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 20;
-  width: 643px;
+  width: 100vw;
+  max-width: 643px;
   height: 80px;
   background: #535353;
   opacity: 1;
@@ -455,6 +459,8 @@
       border-radius: 50%;
       font-size: 14px;
       margin-right: 8px; }
+      .mobile-search-result .result-list-item .index.active {
+        background-color: #282828; }
     .mobile-search-result .result-list-item .content {
       flex: 1;
       overflow: hidden;

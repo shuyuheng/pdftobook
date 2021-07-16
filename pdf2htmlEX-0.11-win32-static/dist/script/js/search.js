@@ -6,6 +6,8 @@ class Search {
         this.resultList = {}
         // 初始化
         this.init()
+        // 所有更改了的 元素
+        this.queryEls = []
     }
     // 数据初始化
     init() {
@@ -20,13 +22,11 @@ class Search {
         // 清空上次结果
         this.resultList = {}
         // 清空之前的高亮
-        let oldList = $('.highlight')
-        for (let key = 0; key < oldList.length; key++) {
-            let parent = $(oldList[key]).parent()[0]
-            if (parent) {
-                parent.innerHTML = parent.innerText
-            }
-
+        for (let i = this.queryEls.length - 1; i >= 0; i--) {
+            const el = this.queryEls[i];
+            // console.log(el);
+            el.innerHTML = el.innerText
+            this.queryEls.splice(i, 1)
         }
         if (!text) return {}
         // 搜索现在的高亮
@@ -42,6 +42,8 @@ class Search {
                             let reg = new RegExp(text, 'g')
                             innerText = innerText.replace(reg, `<span class="highlight">${text}</span>`)
                             El.innerHTML = innerText
+                            // 所有修改过的 维护起来可能会清空
+                            this.queryEls.push(El)
                         }
                     }
                     // console.log(children, 'this.pages[key]');
