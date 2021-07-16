@@ -1,0 +1,6 @@
+# 打包命令
+pdf2htmlex --zoom 2.0 --embed  cfijo --dest-dir dist/book book.pdf
+?redact=true   路由添加该参数为编辑模式
+
+# cd css/ ---sass监听编译文件夹
+sass --watch ./sass:./sassouput
